@@ -1,6 +1,9 @@
 ## SafeFood
 2인 팀프로젝트 (Spring, Springboot 공부)
 
+화면은 무료 템플릿 사이트에서 받아 필요한 부분만 수정.
+
+
 ## 실행화면
 
 ![1](./image/1.png)
