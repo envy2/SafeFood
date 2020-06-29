@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.edu.vue.dao.HrmMapper">
+
+<insert id="insertUser" parameterType="com.ssafy.edu.vue.dto.UserDto">
+	INSERT INTO USER_TB(ID, PWD, NAME, PHONE, ALR) 
+	VALUES(#{id}, #{pwd}, #{name},  #{phone}, #{alr})
+</insert>
+
+<select id="login" parameterType="com.ssafy.edu.vue.dto.UserDto" resultType="com.ssafy.edu.vue.dto.UserDto">
+	SELECT NAME, ID, PWD, PHONE, ALR FROM USER_TB WHERE ID=#{id} AND PWD=#{pwd} 
+</select>
+
+<update id="updateUser" parameterType="com.ssafy.edu.vue.dto.UserDto">
+	UPDATE USER_TB SET NAME=#{name}, PWD=#{pwd}, PHONE=#{phone}, ALR=#{alr} WHERE ID=#{id}
+</update>
+
+<delete id="deleteUser" parameterType="java.lang.String">
+    DELETE FROM USER_TB WHERE ID=#{id}
+</delete>
+
+<select id="findPassword" parameterType="com.ssafy.edu.vue.dto.UserDto"  resultType="com.ssafy.edu.vue.dto.UserDto"> 
+	SELECT NAME, ID, PWD, PHONE, ALR FROM USER_TB WHERE ID=#{id} AND PHONE=#{phone}
+ </select>
+ 
+<select id="findId" parameterType="com.ssafy.edu.vue.dto.UserDto"  resultType="com.ssafy.edu.vue.dto.UserDto"> 
+	SELECT NAME, ID, PWD, PHONE, ALR FROM USER_TB WHERE ID=#{id}
+</select>
+ 
+<select id="findName" parameterType="com.ssafy.edu.vue.dto.UserDto"  resultType="com.ssafy.edu.vue.dto.UserDto"> 
+	SELECT NAME, ID, PWD, PHONE, ALR FROM USER_TB WHERE NAME=#{name}
+</select>
+</mapper>

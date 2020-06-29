@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.edu.vue.dao.HrmMapper">
+
+<select id="findSelectFoods" parameterType="com.ssafy.edu.vue.dto.EatDto" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM EAT_TB WHERE ID=#{id} AND CODE=#{code}
+</select>
+
+<select id="AllBasketList" parameterType="java.lang.String" resultType="com.ssafy.edu.vue.dto.EatDto">
+	SELECT E.ID, F.NAME, E.NUMBER FROM EAT_TB E, FOOD_TB F WHERE E.CODE=F.CODE AND ID=#{id}
+</select>
+
+<select id="AllIngestionList" parameterType="com.ssafy.edu.vue.dto.IngestionDto" resultType="com.ssafy.edu.vue.dto.IngestionDto">
+	SELECT I.ID,F.NAME,I.NUMBER,I.DAY FROM INGESTION_TB I, FOOD_TB F WHERE I.ID=#{id} AND I.CODE=F.CODE AND  I.DAY >= #{startday} AND #{endday} >= I.DAY
+</select>
+
+<insert id="basketFood" parameterType="com.ssafy.edu.vue.dto.EatDto">
+	INSERT INTO EAT_TB(ID,CODE,NUMBER) VALUES(#{id},#{code},1)
+</insert>
+
+<insert id="ingestionFood" parameterType="com.ssafy.edu.vue.dto.EatDto">
+	INSERT INTO INGESTION_TB(ID,CODE,NUMBER,DAY) VALUES(#{id},(SELECT CODE FROM FOOD_TB WHERE NAME=#{name}),#{number},NOW())
+</insert>
+
+<delete id="deleteBasket" parameterType="com.ssafy.edu.vue.dto.EatDto">
+	DELETE FROM EAT_TB WHERE ID=#{id} AND CODE=(SELECT CODE FROM FOOD_TB WHERE NAME=#{name})
+</delete>
+
+<select id="CaloryDay" parameterType="com.ssafy.edu.vue.dto.IngestionDto" resultType="com.ssafy.edu.vue.dto.CaloryDto">
+	SELECT
+	ROUND(SUM(E.NUMBER*F.CALORY),2) AS CALORY,
+	ROUND(SUM(E.NUMBER*F.CARBO),2) AS CARBO,
+	ROUND(SUM(E.NUMBER*F.PROTEIN),2) AS PROTEIN,
+	ROUND(SUM(E.NUMBER*F.FAT),2) AS FAT,
+	ROUND(SUM(E.NUMBER*F.SUGAR),2) AS SUGAR,
+	ROUND(SUM(E.NUMBER*F.NATRIUM),2) AS NATRIUM,
+	ROUND(SUM(E.NUMBER*F.CHOLE),2) AS CHOLE,
+	ROUND(SUM(E.NUMBER*F.FATTY_ACID),2) AS FATTY_ACID,
+	ROUND(SUM(E.NUMBER*F.TRANS_FAT),2) AS TRANS_FAT
+	FROM INGESTION_TB E, FOOD_TB F WHERE E.CODE=F.CODE AND ID=#{id} AND E.day = #{day}
+</select>
+
+<select id="CaloryDayPercent" parameterType="com.ssafy.edu.vue.dto.IngestionDto" resultType="com.ssafy.edu.vue.dto.CaloryDto">
+	SELECT
+	ROUND(SUM(E.NUMBER*F.CALORY)/2600*100,1) AS CALORY,
+	ROUND(SUM(E.NUMBER*F.CARBO)/330*100,1) AS CARBO,
+	ROUND(SUM(E.NUMBER*F.PROTEIN)/60*100,1) AS PROTEIN,
+	ROUND(SUM(E.NUMBER*F.FAT)/50*100,1) AS FAT,
+	ROUND(SUM(E.NUMBER*F.SUGAR)/25*100,1) AS SUGAR,
+	ROUND(SUM(E.NUMBER*F.NATRIUM)/2000*100,1) AS NATRIUM,
+	ROUND(SUM(E.NUMBER*F.CHOLE)/15*100,1) AS CHOLE,
+	ROUND(SUM(E.NUMBER*F.FATTY_ACID)/15*100,1) AS FATTY_ACID,
+	ROUND(SUM(E.NUMBER*F.TRANS_FAT)/2*100,1) AS TRANS_FAT
+	FROM INGESTION_TB E, FOOD_TB F WHERE E.CODE=F.CODE AND ID=#{id} AND E.day = #{day}
+</select>
+
+<select id="CaloryDays" parameterType="com.ssafy.edu.vue.dto.IngestionDto" resultType="com.ssafy.edu.vue.dto.CaloryDto">
+	SELECT
+	ROUND(SUM(E.NUMBER*F.CALORY),2) AS CALORY,
+	ROUND(SUM(E.NUMBER*F.CARBO),2) AS CARBO,
+	ROUND(SUM(E.NUMBER*F.PROTEIN),2) AS PROTEIN,
+	ROUND(SUM(E.NUMBER*F.FAT),2) AS FAT,
+	ROUND(SUM(E.NUMBER*F.SUGAR),2) AS SUGAR,
+	ROUND(SUM(E.NUMBER*F.NATRIUM),2) AS NATRIUM,
+	ROUND(SUM(E.NUMBER*F.CHOLE),2) AS CHOLE,
+	ROUND(SUM(E.NUMBER*F.FATTY_ACID),2) AS FATTY_ACID,
+	ROUND(SUM(E.NUMBER*F.TRANS_FAT),2) AS TRANS_FAT
+	FROM INGESTION_TB E, FOOD_TB F WHERE E.CODE=F.CODE AND ID=#{id} AND  E.DAY >= #{startday} AND #{endday} >= E.DAY
+</select>
+
+<select id="CaloryDaysPercent" parameterType="com.ssafy.edu.vue.dto.IngestionDto" resultType="com.ssafy.edu.vue.dto.CaloryDto">
+	SELECT
+	ROUND(SUM(E.NUMBER*F.CALORY)/2600*100,1) AS CALORY,
+	ROUND(SUM(E.NUMBER*F.CARBO)/330*100,1) AS CARBO,
+	ROUND(SUM(E.NUMBER*F.PROTEIN)/60*100,1) AS PROTEIN,
+	ROUND(SUM(E.NUMBER*F.FAT)/50*100,1) AS FAT,
+	ROUND(SUM(E.NUMBER*F.SUGAR)/25*100,1) AS SUGAR,
+	ROUND(SUM(E.NUMBER*F.NATRIUM)/2000*100,1) AS NATRIUM,
+	ROUND(SUM(E.NUMBER*F.CHOLE)/15*100,1) AS CHOLE,
+	ROUND(SUM(E.NUMBER*F.FATTY_ACID)/15*100,1) AS FATTY_ACID,
+	ROUND(SUM(E.NUMBER*F.TRANS_FAT)/2*100,1) AS TRANS_FAT
+	FROM INGESTION_TB E, FOOD_TB F WHERE E.CODE=F.CODE AND ID=#{id} AND E.DAY >= #{startday} AND #{endday} >= E.DAY
+</select>
+
+<select id="userAllergy" parameterType="com.ssafy.edu.vue.dto.EatDto" resultType="com.ssafy.edu.vue.dto.UserDto">
+	SELECT ALR FROM USER_TB WHERE ID=#{id}
+</select>
+ 
+<select id="foodAllergy" parameterType="com.ssafy.edu.vue.dto.EatDto" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT MATERIAL FROM FOOD_TB WHERE NAME=#{name}
+</select>
+
+
+
+
+</mapper>

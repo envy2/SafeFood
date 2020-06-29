@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.edu.vue.dao.HrmMapper">
+
+<insert id="addBoard" parameterType="com.ssafy.edu.vue.dto.BoardDto">
+	INSERT INTO BOARD_TB (TITLE,WRITER,CONTENT,WRITE_DATE) VALUES(#{title},#{writer},#{content},NOW())
+</insert>
+
+<select id="boardAllLists" resultType="com.ssafy.edu.vue.dto.BoardDto">
+	SELECT NO, TITLE, CONTENT, WRITER, WRITE_DATE, READ_COUNT FROM BOARD_TB ORDER BY NO DESC
+</select>
+
+<select id="findBoardByNo" parameterType="java.lang.Integer" resultType="com.ssafy.edu.vue.dto.BoardDto">
+	SELECT NO, TITLE, CONTENT, WRITER, WRITE_DATE, READ_COUNT FROM BOARD_TB WHERE NO=#{no}
+</select>
+
+<update id="updateBoard" parameterType="com.ssafy.edu.vue.dto.BoardDto">
+    UPDATE BOARD_TB SET TITLE=#{title}, CONTENT=#{content}  WHERE NO=#{no} AND WRITER=#{writer}      
+</update>
+
+<update id="updateReadCount" parameterType="com.ssafy.edu.vue.dto.BoardDto">
+    UPDATE BOARD_TB SET READ_COUNT=READ_COUNT+1 WHERE NO=#{no}     
+</update>
+
+<delete id="deleteBoard" parameterType="java.lang.Integer">
+    DELETE FROM BOARD_TB WHERE NO=#{no}   
+</delete>
+
+<select parameterType="com.ssafy.edu.vue.dto.PageBoardDto" id="findAllBoardByPage" 
+resultType="com.ssafy.edu.vue.dto.BoardDto"> 
+SELECT NO, TITLE, CONTENT, WRITER, WRITE_DATE, READ_COUNT FROM BOARD_TB 
+ORDER BY NO DESC LIMIT #{startpage} , #{perpage} 
+</select>
+</mapper>

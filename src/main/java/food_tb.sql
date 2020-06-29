@@ -1,0 +1,17 @@
+CREATE TABLE `safefood`.`food_tb` (
+  `code` INT(11) NOT NULL,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  `support_per_eat` DOUBLE NULL DEFAULT '0',
+  `calory` DOUBLE NULL DEFAULT '0',
+  `carbo` DOUBLE NULL DEFAULT '0',
+  `protein` DOUBLE NULL DEFAULT '0',
+  `fat` DOUBLE NULL DEFAULT '0',
+  `sugar` DOUBLE NULL DEFAULT '0',
+  `natrium` DOUBLE NULL DEFAULT '0',
+  `chole` DOUBLE NULL DEFAULT '0',
+  `fatty_acid` DOUBLE NULL DEFAULT '0',
+  `trans_fat` DOUBLE NULL DEFAULT '0',
+  `maker` VARCHAR(100) NULL DEFAULT NULL,
+  `material` VARCHAR(1000) NULL DEFAULT NULL,
+  `img` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`code`));

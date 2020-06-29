@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.edu.vue.dao.HrmMapper">
+
+<insert id="addFood" parameterType="com.ssafy.edu.vue.dto.FoodDto">
+	INSERT INTO FOOD_TB(CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG) 
+	VALUES(#{code},#{name},#{support_per_eat},#{calory},#{carbo},#{protein},#{fat},#{sugar},#{natrium},#{chole},#{fatty_acid},#{trans_fat},#{maker},#{material},#{img})
+</insert>
+
+<select id="findAllFoods" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG FROM FOOD_TB ORDER BY CODE
+</select>
+
+<select id="findFoodCode" parameterType="java.lang.Integer" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG 
+	FROM FOOD_TB WHERE CODE=#{code}
+</select>
+
+<select id="findPageFoods" parameterType="java.lang.Integer" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG 
+	FROM FOOD_TB ORDER BY CODE LIMIT #{num}, 6
+</select>
+
+<select id="Eat_a_Lot" parameterType="java.lang.String" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT F.CODE,F.NAME,F.SUPPORT_PER_EAT,F.CALORY,F.CARBO,F.PROTEIN,F.FAT,F.SUGAR,F.NATRIUM,F.CHOLE,F.FATTY_ACID,F.TRANS_FAT,F.MAKER,F.MATERIAL,F.IMG
+	FROM INGESTION_TB E,FOOD_TB F WHERE E.ID=#{id} AND E.CODE=F.CODE  GROUP BY CODE ORDER BY SUM(E.NUMBER) DESC LIMIT 0,3;
+</select>
+
+<select parameterType="com.ssafy.edu.vue.dto.FoodPageDTO" id="findAllFoodByPage" 
+resultType="com.ssafy.edu.vue.dto.FoodDto"> 
+SELECT CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG FROM FOOD_TB 
+ORDER BY CODE LIMIT #{startpage} , #{perpage} 
+</select>
+ 
+<select id="searchFoods" parameterType="java.util.Map" resultType="com.ssafy.edu.vue.dto.FoodDto">
+	SELECT CODE,NAME,SUPPORT_PER_EAT,CALORY,CARBO,PROTEIN,FAT,SUGAR,NATRIUM,CHOLE,FATTY_ACID,TRANS_FAT,MAKER,MATERIAL,IMG FROM FOOD_TB WHERE 1=1 
+	<if test="s_category != '' and s_category != null and s_keyword != '' and s_keyword != null">
+	<if test="s_category == 'name'"> AND NAME like concat('%',#{s_keyword},'%')</if>
+	<if test="s_category == 'maker'"> AND MAKER like concat('%',#{s_keyword},'%')</if>
+	<if test="s_category == 'material'"> AND MATERIAL like concat('%',#{s_keyword},'%')</if>
+	</if>
+	ORDER BY CODE; 
+</select>
+
+</mapper>
