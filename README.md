@@ -3,12 +3,12 @@
 
 ## 실행화면
 
-![1](./image/1.PNG)
-![2](./image/2.PNG)
-![3](./image/3.PNG)
-![4](./image/4.PNG)
-![5](./image/5.PNG)
-![6](./image/6.PNG)
-![7](./image/7.PNG)
-![9](./image/9.PNG)
-![10](./image/10.PNG)
+![1](./image/1.png)
+![2](./image/2.png)
+![3](./image/3.png)
+![4](./image/4.png)
+![5](./image/5.png)
+![6](./image/6.png)
+![7](./image/7.png)
+![9](./image/9.png)
+![10](./image/10.png)
